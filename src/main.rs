@@ -50,6 +50,6 @@ fn main() {
                     websocket.send(process_query()).unwrap();
                 }
             }
-        });
+        }); //Todo manage disconnect
     }
 }
