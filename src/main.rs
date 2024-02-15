@@ -37,8 +37,17 @@ fn process_query() -> Message {
 }
 
 fn main() {
-    let bind_addr = "127.0.0.1:9001";
-    let server = TcpListener::bind(bind_addr).unwrap();
+    let args: Vec<String> = std::env::args().collect();
+    if args.len() < 3 {
+        eprintln!("Usage: {} <ip> <Port>", args[0]);
+        std::process::exit(1);
+    }
+
+    let ip = &args[1];
+    let port = &args[2];
+
+    let bind_addr = format!("{}:{}", ip, port);
+    let server = TcpListener::bind(bind_addr.to_owned()).unwrap();
     eprintln!("Listening on: ws://{bind_addr}");
     for stream in server.incoming() {
         spawn(move || {
