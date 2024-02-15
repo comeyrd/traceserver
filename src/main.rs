@@ -54,11 +54,19 @@ fn main() {
             let mut websocket = tungstenite::accept(stream.unwrap()).unwrap();
             eprintln!("New client connected");
             loop {
-                let msg = websocket.read().unwrap();
-                if msg.is_binary() || msg.is_text() {
-                    websocket.send(process_query()).unwrap();
+                let msg_result: Result<Message, tungstenite::Error> = websocket.read();
+                match msg_result {
+                    Ok(msg) => {
+                        if msg.is_binary() || msg.is_text() {
+                            websocket.send(process_query()).unwrap();
+                        }
+                    }
+                    Err(_) => {
+                        eprintln!("Closing the connection");
+                        break; //Finishes the thread
+                    }
                 }
             }
-        }); //Todo manage disconnect
+        });
     }
 }
