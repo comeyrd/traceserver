@@ -10,18 +10,20 @@ struct Resp {
     direction: String,
     rate: u16,
     text: char,
+    roaming: bool,
 }
 
 impl Resp {
     // Custom constructor to create a default Resp instance
     pub fn new() -> Self {
         let mut rng = rand::thread_rng();
-        let rand_tuple: (bool, u16, u8) = rng.gen::<(bool, u16, u8)>();
-        let dir: &str = if rand_tuple.0 { "in" } else { "out" };
+        let rand_tuple: (bool, u16, u8, bool) = rng.gen::<(bool, u16, u8, bool)>();
+        let dir: &str = if rand_tuple.0 { "upload" } else { "download" };
         Self {
             direction: dir.to_owned(),
             rate: rand_tuple.1.to_owned(),
             text: rand_tuple.2.to_owned() as char,
+            roaming: rand_tuple.3,
         }
     }
 }
