@@ -8,7 +8,7 @@ use serde::{ Deserialize, Serialize };
 #[derive(Serialize, Deserialize)]
 struct Resp {
     direction: String,
-    rate: i16,
+    rate: u16,
     text: char,
 }
 
@@ -16,7 +16,7 @@ impl Resp {
     // Custom constructor to create a default Resp instance
     pub fn new() -> Self {
         let mut rng = rand::thread_rng();
-        let rand_tuple: (bool, i16, u8) = rng.gen::<(bool, i16, u8)>();
+        let rand_tuple: (bool, u16, u8) = rng.gen::<(bool, u16, u8)>();
         let dir: &str = if rand_tuple.0 { "in" } else { "out" };
         Self {
             direction: dir.to_owned(),
