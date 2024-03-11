@@ -1,5 +1,6 @@
-use std::{ net::TcpListener, thread::spawn };
+use std::{ fs::File, io::Read, net::TcpListener, sync::Arc, thread::spawn };
 
+use native_tls::{ Identity, TlsAcceptor };
 use rand::prelude::*;
 
 use tungstenite::Message;
@@ -47,13 +48,27 @@ fn main() {
 
     let ip = &args[1];
     let port = &args[2];
+    let mut cert_file = File::open("./certificate.pem").unwrap();
+    let mut cert = vec![];
+    cert_file.read_to_end(&mut cert).unwrap();
+
+    let mut key_file = File::open("./private_key.pem").unwrap();
+    let mut key = vec![];
+    key_file.read_to_end(&mut key).unwrap();
+
+    let identity = Identity::from_pkcs8(&cert, &key).unwrap();
+
+    let acceptor = TlsAcceptor::new(identity).unwrap();
+    let acceptor = Arc::new(acceptor);
 
     let bind_addr = format!("{}:{}", ip, port);
     let server = TcpListener::bind(bind_addr.to_owned()).unwrap();
-    eprintln!("Listening on: ws://{bind_addr}");
+    eprintln!("Listening on: wss://{bind_addr}");
     for stream in server.incoming() {
+        let acceptor = acceptor.clone();
         spawn(move || {
-            let mut websocket = tungstenite::accept(stream.unwrap()).unwrap();
+            let stream = acceptor.accept(stream.unwrap()).unwrap();
+            let mut websocket = tungstenite::accept(stream).unwrap();
             eprintln!("New client connected");
             loop {
                 let msg_result: Result<Message, tungstenite::Error> = websocket.read();
@@ -61,6 +76,7 @@ fn main() {
                     Ok(msg) => {
                         if msg.is_binary() || msg.is_text() {
                             websocket.send(process_query()).unwrap();
+                            eprint!("msg ");
                         }
                     }
                     Err(_) => {

@@ -13,3 +13,6 @@ It will send you back a json as :
 }
 
 So you can do request by request and receive new data to display on your screens
+
+
+cat ssl_certificate.crt intermediate_certificate.crt > combined.crt
