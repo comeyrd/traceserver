@@ -1,18 +1,3 @@
-Really Ugly don't look
+# Tracefront
 
-To use : 
-
-- Open a connection with ws://IP:PORT
-- Send anything with a string inside, (like "a")
-It will send you back a json as : 
-
-{
-    direction:"in" or "out",
-    rate:int16,
-    text:char
-}
-
-So you can do request by request and receive new data to display on your screens
-
-
-cat ssl_certificate.crt intermediate_certificate.crt > combined.crt
+This is an old branch that works if you want to have the TLS managed at this level, but i think using a proxy like explained in the main HOWTO.md is the easier way to go
