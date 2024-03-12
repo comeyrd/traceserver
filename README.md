@@ -1,15 +1,13 @@
-Really Ugly don't look
+# Traceserver 
 
-To use : 
-
-- Open a connection with ws://IP:PORT
-- Send anything with a string inside, (like "a")
-It will send you back a json as : 
+Traceserver is a websocket server, and for every websocket message it receives, it sends back a json like this : 
 
 {
-    direction:"in" or "out",
+    direction:"upload" or "download",
     rate:int16,
-    text:char
+    text:char,
+    roaming:bool
 }
 
-So you can do request by request and receive new data to display on your screens
+The value inside the Json is randomly generated.
+This project is linked to [Tracefront](https://github.com/comeyrd/tracefront), it is an application that displays theses traces.
