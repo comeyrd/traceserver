@@ -11,3 +11,5 @@ Traceserver is a websocket server, and for every websocket message it receives, 
 
 The value inside the Json is randomly generated.
 This project is linked to [Tracefront](https://github.com/comeyrd/tracefront), it is an application that displays theses traces.
+
+You can query an instance of this project at this address : wss://ws.ceyraud.com
