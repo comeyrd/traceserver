@@ -1,5 +1,7 @@
 # Traceserver 
 
+This project is a Team project with [katheleligaf](https://github.com/katheleligaf), [n4n5](https://github.com/Its-Just-Nans), [SachaDico](https://github.com/SachaDico)
+
 Traceserver is a websocket server, and for every websocket message it receives, it sends back a json like this : 
 
 {
